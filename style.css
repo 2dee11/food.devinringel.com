@@ -1,0 +1,236 @@
+:root {
+  --bg: #faf7f2;
+  --card-bg: #ffffff;
+  --text: #2b2420;
+  --muted: #766c62;
+  --accent: #c65d2e;
+  --accent-dark: #a2481f;
+  --border: #e6ddd2;
+  --closed: #c0392b;
+  --open: #2f7d4f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.site-header {
+  padding: 2rem 1.5rem 1rem;
+  text-align: center;
+}
+
+.site-header h1 {
+  margin: 0 0 0.25rem;
+  font-size: 2rem;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--muted);
+}
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem 3rem;
+}
+
+.pick-section {
+  text-align: center;
+  margin: 1.5rem 0;
+}
+
+#pick-btn {
+  font-size: 1.1rem;
+  padding: 0.85rem 1.75rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+#pick-btn:hover {
+  background: var(--accent-dark);
+}
+
+#pick-btn:active {
+  transform: scale(0.97);
+}
+
+.pick-result {
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--card-bg);
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-end;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+}
+
+.filter-group label {
+  color: var(--muted);
+}
+
+.checkbox-group {
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text);
+}
+
+select {
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 0.95rem;
+  background: white;
+}
+
+.status-line {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.restaurant-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.restaurant-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+}
+
+.restaurant-card h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1.1rem;
+}
+
+.restaurant-card .cuisine {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.restaurant-card .address {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.restaurant-card .notes {
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  font-style: italic;
+  color: var(--muted);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.tag {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: #f1ece3;
+  color: var(--text);
+}
+
+.tag.today-open {
+  background: #e4f4e9;
+  color: var(--open);
+}
+
+.tag.today-closed {
+  background: #fbe7e4;
+  color: var(--closed);
+}
+
+.day-row {
+  display: flex;
+  gap: 0.25rem;
+  margin-top: 0.6rem;
+}
+
+.day-pill {
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: white;
+}
+
+.day-pill.open {
+  background: var(--open);
+}
+
+.day-pill.closed {
+  background: #d9d2c8;
+  color: var(--muted);
+}
+
+.day-pill.today {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--muted);
+  padding: 2rem;
+}
+
+.site-footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.8rem;
+  padding-bottom: 2rem;
+}

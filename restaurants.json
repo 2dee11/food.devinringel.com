@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Example Burger Co.",
+    "cuisine": "Burgers",
+    "sun": false,
+    "mon": false,
+    "tue": true,
+    "wed": true,
+    "thu": true,
+    "fri": true,
+    "sat": true,
+    "food": true,
+    "alcohol": true,
+    "address": "123 Main St",
+    "notes": "Sample entry — replace with your own data."
+  },
+  {
+    "name": "Example Taqueria",
+    "cuisine": "Mexican",
+    "sun": true,
+    "mon": true,
+    "tue": true,
+    "wed": true,
+    "thu": true,
+    "fri": true,
+    "sat": true,
+    "food": true,
+    "alcohol": false,
+    "address": "456 Oak Ave",
+    "notes": "Sample entry — replace with your own data."
+  },
+  {
+    "name": "Example Pizzeria",
+    "cuisine": "Pizza",
+    "sun": true,
+    "mon": false,
+    "tue": false,
+    "wed": true,
+    "thu": true,
+    "fri": true,
+    "sat": true,
+    "food": true,
+    "alcohol": true,
+    "address": "789 Elm St",
+    "notes": "Sample entry — closed Mon/Tue."
+  }
+]

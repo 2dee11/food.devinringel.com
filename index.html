@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where to Eat</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <h1>Where to Eat</h1>
+    <p class="subtitle">Restaurants around town, filtered and randomized.</p>
+  </header>
+
+  <main>
+    <section class="pick-section">
+      <button id="pick-btn" type="button">🎲 Pick For Me</button>
+      <div id="pick-result" class="pick-result" hidden></div>
+    </section>
+
+    <section class="filters" aria-label="Filters">
+      <div class="filter-group">
+        <label for="cuisine-filter">Cuisine</label>
+        <select id="cuisine-filter">
+          <option value="">All</option>
+        </select>
+      </div>
+
+      <div class="filter-group checkbox-group">
+        <label>
+          <input type="checkbox" id="open-today-filter">
+          Open today
+        </label>
+      </div>
+
+      <div class="filter-group checkbox-group">
+        <label>
+          <input type="checkbox" id="food-filter">
+          Serves food
+        </label>
+        <label>
+          <input type="checkbox" id="alcohol-filter">
+          Serves alcohol
+        </label>
+      </div>
+    </section>
+
+    <p id="status-line" class="status-line"></p>
+
+    <section id="restaurant-list" class="restaurant-list" aria-live="polite"></section>
+  </main>
+
+  <footer class="site-footer">
+    <p id="data-source-note"></p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
