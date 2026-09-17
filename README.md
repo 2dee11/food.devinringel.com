@@ -21,6 +21,10 @@ pick from whatever's currently filtered. No backend, no build step.
    name, cuisine, sun, mon, tue, wed, thu, fri, sat, food, alcohol, out_of_town, address, notes
    ```
 
+   - `cuisine`: one or more cuisines, comma-separated (e.g. `Chicken, Burgers`
+     for a place like Buffalo Wild Wings). Each shows up as its own option in
+     the Cuisine filter, and a restaurant matches if any of its cuisines is
+     selected.
    - `sun`...`sat`: `TRUE`/`FALSE` (or `yes`/`no`, `1`/`0`) for whether the
      place is open that day. This is per-day on purpose, since a lot of
      local spots close on random days rather than a normal Mon–Fri week.

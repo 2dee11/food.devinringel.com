@@ -1,5 +1,21 @@
 [
   {
+    "name": "Example Wing Spot",
+    "cuisine": "Chicken, Burgers",
+    "sun": true,
+    "mon": true,
+    "tue": true,
+    "wed": true,
+    "thu": true,
+    "fri": true,
+    "sat": true,
+    "food": true,
+    "alcohol": true,
+    "out_of_town": false,
+    "address": "50 Sports Bar Way",
+    "notes": "Sample entry — multiple cuisines, comma-separated."
+  },
+  {
     "name": "Example Burger Co.",
     "cuisine": "Burgers",
     "sun": false,

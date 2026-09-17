@@ -109,9 +109,15 @@ function toBool(value) {
 }
 
 function normalizeRestaurant(raw) {
+  const cuisines = String(raw.cuisine ?? "")
+    .split(/[,;]+/)
+    .map((c) => c.trim())
+    .filter(Boolean);
+
   const normalized = {
     name: String(raw.name ?? "").trim(),
-    cuisine: String(raw.cuisine ?? "").trim() || "Uncategorized",
+    cuisines: cuisines.length ? cuisines : ["Uncategorized"],
+    cuisine: cuisines.length ? cuisines.join(", ") : "Uncategorized",
     address: String(raw.address ?? "").trim(),
     notes: String(raw.notes ?? "").trim(),
     food: toBool(raw.food),
@@ -137,7 +143,7 @@ function todayKey() {
 
 function populateCuisineFilter(restaurants) {
   const panel = document.getElementById("cuisine-panel");
-  const cuisines = Array.from(new Set(restaurants.map((r) => r.cuisine))).sort();
+  const cuisines = Array.from(new Set(restaurants.flatMap((r) => r.cuisines))).sort();
   panel.innerHTML = cuisines
     .map(
       (cuisine) => `
@@ -243,7 +249,7 @@ function applyFilters() {
   const today = todayKey();
 
   state.filtered = state.all.filter((r) => {
-    if (cuisines.length > 0 && !cuisines.includes(r.cuisine)) return false;
+    if (cuisines.length > 0 && !r.cuisines.some((c) => cuisines.includes(c))) return false;
     if (location === "in-town" && r.outOfTown) return false;
     if (location === "out-of-town" && !r.outOfTown) return false;
     if (openTodayOnly && !r[today]) return false;
