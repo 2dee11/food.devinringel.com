@@ -18,7 +18,7 @@ pick from whatever's currently filtered. No backend, no build step.
 1. Create a Google Sheet with a header row and these columns (any order):
 
    ```
-   name, cuisine, sun, mon, tue, wed, thu, fri, sat, food, alcohol, address, notes
+   name, cuisine, sun, mon, tue, wed, thu, fri, sat, food, alcohol, out_of_town, address, notes
    ```
 
    - `sun`...`sat`: `TRUE`/`FALSE` (or `yes`/`no`, `1`/`0`) for whether the
@@ -27,6 +27,9 @@ pick from whatever's currently filtered. No backend, no build step.
    - `food` / `alcohol`: `TRUE`/`FALSE` for whether they serve each. A
      place with both checked shows as "Food & Alcohol"; only `alcohol`
      checked shows as "Alcohol only", etc.
+   - `out_of_town`: `TRUE`/`FALSE` for whether it's outside your usual
+     area. Leave blank/`FALSE` for local spots. Filterable via the
+     Location dropdown, and tagged on the card and on a random pick.
    - `address` / `notes`: optional free text.
 
 2. In Google Sheets: **File → Share → Publish to web**. Choose the

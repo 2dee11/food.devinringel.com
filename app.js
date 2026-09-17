@@ -4,10 +4,10 @@
 // how to set up the sheet and get this URL.
 //
 // Expected columns (case-insensitive), one row per restaurant:
-//   name, cuisine, sun, mon, tue, wed, thu, fri, sat, food, alcohol, address, notes
+//   name, cuisine, sun, mon, tue, wed, thu, fri, sat, food, alcohol, out_of_town, address, notes
 //
-// Day columns and food/alcohol columns accept TRUE/FALSE, yes/no, y/n, 1/0,
-// or open/closed (case-insensitive). Blank = closed / false.
+// Day columns, food/alcohol, and out_of_town accept TRUE/FALSE, yes/no, y/n,
+// 1/0, or open/closed (case-insensitive). Blank = closed / false (in town).
 const SHEET_CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vTBLiKjWwsLgmopcPVC47Q5YNgCq63OqtCmDL64V50HU2DRZwAVHVoHRKcX7OadQczWCGY2OPjNib60/pub?gid=0&single=true&output=csv";
 
@@ -128,6 +128,7 @@ function normalizeRestaurant(raw) {
     notes: String(raw.notes ?? "").trim(),
     food: toBool(raw.food),
     alcohol: toBool(raw.alcohol),
+    outOfTown: toBool(raw.out_of_town),
   };
   DAY_KEYS.forEach((day) => {
     normalized[day] = toBool(raw[day]);
@@ -181,6 +182,7 @@ function renderCard(r, today) {
       <div class="tags">
         <span class="tag ${openToday ? "today-open" : "today-closed"}">${openToday ? "Open today" : "Closed today"}</span>
         <span class="tag">${servesLabel(r)}</span>
+        ${r.outOfTown ? `<span class="tag out-of-town">Out of town</span>` : ""}
       </div>
       <div class="day-row">${renderDayRow(r, today)}</div>
       ${r.address ? `<div class="address">${escapeHTML(r.address)}</div>` : ""}
@@ -197,6 +199,7 @@ function escapeHTML(str) {
 
 function applyFilters() {
   const cuisine = document.getElementById("cuisine-filter").value;
+  const location = document.getElementById("location-filter").value;
   const openTodayOnly = document.getElementById("open-today-filter").checked;
   const foodOnly = document.getElementById("food-filter").checked;
   const alcoholOnly = document.getElementById("alcohol-filter").checked;
@@ -204,6 +207,8 @@ function applyFilters() {
 
   state.filtered = state.all.filter((r) => {
     if (cuisine && r.cuisine !== cuisine) return false;
+    if (location === "in-town" && r.outOfTown) return false;
+    if (location === "out-of-town" && !r.outOfTown) return false;
     if (openTodayOnly && !r[today]) return false;
     if (foodOnly && !r.food) return false;
     if (alcoholOnly && !r.alcohol) return false;
@@ -243,7 +248,7 @@ function pickForMe() {
   const today = todayKey();
   resultEl.hidden = false;
   resultEl.innerHTML = `
-    <strong>${escapeHTML(pick.name)}</strong><br>
+    <strong>${escapeHTML(pick.name)}</strong>${pick.outOfTown ? ` <span class="tag out-of-town">Out of town</span>` : ""}<br>
     <span class="cuisine">${escapeHTML(pick.cuisine)} • ${servesLabel(pick)}</span><br>
     ${pick[today] ? "Open today" : "⚠️ Closed today"}
     ${pick.address ? `<br><span class="address">${escapeHTML(pick.address)}</span>` : ""}
@@ -268,6 +273,7 @@ async function init() {
   applyFilters();
 
   document.getElementById("cuisine-filter").addEventListener("change", applyFilters);
+  document.getElementById("location-filter").addEventListener("change", applyFilters);
   document.getElementById("open-today-filter").addEventListener("change", applyFilters);
   document.getElementById("food-filter").addEventListener("change", applyFilters);
   document.getElementById("alcohol-filter").addEventListener("change", applyFilters);

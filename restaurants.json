@@ -11,6 +11,7 @@
     "sat": true,
     "food": true,
     "alcohol": true,
+    "out_of_town": false,
     "address": "123 Main St",
     "notes": "Sample entry — replace with your own data."
   },
@@ -26,6 +27,7 @@
     "sat": true,
     "food": true,
     "alcohol": false,
+    "out_of_town": false,
     "address": "456 Oak Ave",
     "notes": "Sample entry — replace with your own data."
   },
@@ -41,7 +43,24 @@
     "sat": true,
     "food": true,
     "alcohol": true,
+    "out_of_town": false,
     "address": "789 Elm St",
     "notes": "Sample entry — closed Mon/Tue."
+  },
+  {
+    "name": "Example Roadside Diner",
+    "cuisine": "American",
+    "sun": true,
+    "mon": true,
+    "tue": true,
+    "wed": true,
+    "thu": true,
+    "fri": true,
+    "sat": true,
+    "food": true,
+    "alcohol": false,
+    "out_of_town": true,
+    "address": "1 Highway Exit 42",
+    "notes": "Sample entry — worth the drive."
   }
 ]

@@ -189,6 +189,11 @@ select {
   color: var(--closed);
 }
 
+.tag.out-of-town {
+  background: #e6edf7;
+  color: #33578c;
+}
+
 .day-row {
   display: flex;
   gap: 0.25rem;
