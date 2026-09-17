@@ -8,7 +8,8 @@
 //
 // Day columns and food/alcohol columns accept TRUE/FALSE, yes/no, y/n, 1/0,
 // or open/closed (case-insensitive). Blank = closed / false.
-const SHEET_CSV_URL = "";
+const SHEET_CSV_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTBLiKjWwsLgmopcPVC47Q5YNgCq63OqtCmDL64V50HU2DRZwAVHVoHRKcX7OadQczWCGY2OPjNib60/pub?gid=0&single=true&output=csv";
 
 const FALLBACK_JSON_URL = "restaurants.json";
 
