@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Where to Eat</title>
+<title>Can't Decide Where to Eat?</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="site-header">
-    <h1>Where to Eat</h1>
-    <p class="subtitle">Restaurants around town, filtered and randomized.</p>
+    <h1>Can't Decide Where to Eat? Me either.</h1>
+    <p class="subtitle">This is a list of my favorite spots to eat and drink. Hopefully it helps!</p>
   </header>
 
   <main>
@@ -20,10 +20,14 @@
 
     <section class="filters" aria-label="Filters">
       <div class="filter-group">
-        <label for="cuisine-filter">Cuisine</label>
-        <select id="cuisine-filter">
-          <option value="">All</option>
-        </select>
+        <label id="cuisine-filter-label">Cuisine</label>
+        <div class="multiselect" id="cuisine-multiselect">
+          <button type="button" class="multiselect-toggle" id="cuisine-toggle"
+                  aria-haspopup="listbox" aria-expanded="false" aria-labelledby="cuisine-filter-label">
+            All cuisines
+          </button>
+          <div class="multiselect-panel" id="cuisine-panel" role="listbox" aria-multiselectable="true" hidden></div>
+        </div>
       </div>
 
       <div class="filter-group">
@@ -58,10 +62,6 @@
 
     <section id="restaurant-list" class="restaurant-list" aria-live="polite"></section>
   </main>
-
-  <footer class="site-footer">
-    <p id="data-source-note"></p>
-  </footer>
 
   <script src="app.js"></script>
 </body>

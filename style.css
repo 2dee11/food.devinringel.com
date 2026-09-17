@@ -3,11 +3,12 @@
   --card-bg: #ffffff;
   --text: #2b2420;
   --muted: #766c62;
-  --accent: #c65d2e;
-  --accent-dark: #a2481f;
+  --accent: #ff5f05;
+  --accent-dark: #cc4c04;
   --border: #e6ddd2;
   --closed: #c0392b;
   --open: #2f7d4f;
+  --day-open: #13294b;
 }
 
 * {
@@ -213,7 +214,7 @@ select {
 }
 
 .day-pill.open {
-  background: var(--open);
+  background: var(--day-open);
 }
 
 .day-pill.closed {
@@ -233,9 +234,58 @@ select {
   padding: 2rem;
 }
 
-.site-footer {
-  text-align: center;
-  color: var(--muted);
-  font-size: 0.8rem;
-  padding-bottom: 2rem;
+.restaurant-card .address a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--border);
+}
+
+.restaurant-card .address a:hover {
+  text-decoration-color: var(--accent);
+}
+
+.multiselect {
+  position: relative;
+}
+
+.multiselect-toggle {
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 0.95rem;
+  background: white;
+  color: var(--text);
+  cursor: pointer;
+  min-width: 10rem;
+  text-align: left;
+}
+
+.multiselect-panel {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  z-index: 10;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem;
+  min-width: 12rem;
+  max-height: 14rem;
+  overflow-y: auto;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.multiselect-panel label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.4rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.multiselect-panel label:hover {
+  background: var(--bg);
 }

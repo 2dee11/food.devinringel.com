@@ -25,9 +25,7 @@ async function loadRestaurants() {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const csvText = await res.text();
       const rows = parseCSV(csvText);
-      const restaurants = rowsToRestaurants(rows);
-      setDataSourceNote("Data loaded from Google Sheets.");
-      return restaurants;
+      return rowsToRestaurants(rows);
     } catch (err) {
       console.warn("Failed to load from Google Sheets, falling back to restaurants.json", err);
     }
@@ -36,17 +34,7 @@ async function loadRestaurants() {
   const res = await fetch(FALLBACK_JSON_URL, { cache: "no-store" });
   if (!res.ok) throw new Error(`Failed to load ${FALLBACK_JSON_URL}: HTTP ${res.status}`);
   const data = await res.json();
-  setDataSourceNote(
-    SHEET_CSV_URL
-      ? "Google Sheets load failed — showing local restaurants.json instead."
-      : "Data loaded from restaurants.json (no Google Sheet configured)."
-  );
   return data.map(normalizeRestaurant);
-}
-
-function setDataSourceNote(text) {
-  const el = document.getElementById("data-source-note");
-  if (el) el.textContent = text;
 }
 
 // ---- CSV parsing ---------------------------------------------------------
@@ -148,14 +136,63 @@ function todayKey() {
 }
 
 function populateCuisineFilter(restaurants) {
-  const select = document.getElementById("cuisine-filter");
+  const panel = document.getElementById("cuisine-panel");
   const cuisines = Array.from(new Set(restaurants.map((r) => r.cuisine))).sort();
-  cuisines.forEach((cuisine) => {
-    const opt = document.createElement("option");
-    opt.value = cuisine;
-    opt.textContent = cuisine;
-    select.appendChild(opt);
+  panel.innerHTML = cuisines
+    .map(
+      (cuisine) => `
+        <label>
+          <input type="checkbox" class="cuisine-option" value="${escapeHTML(cuisine)}">
+          ${escapeHTML(cuisine)}
+        </label>
+      `
+    )
+    .join("");
+}
+
+function selectedCuisines() {
+  return Array.from(document.querySelectorAll(".cuisine-option:checked")).map((el) => el.value);
+}
+
+function updateCuisineToggleLabel() {
+  const toggle = document.getElementById("cuisine-toggle");
+  const selected = selectedCuisines();
+  if (selected.length === 0) toggle.textContent = "All cuisines";
+  else if (selected.length <= 2) toggle.textContent = selected.join(", ");
+  else toggle.textContent = `${selected.length} cuisines`;
+}
+
+function setupCuisineMultiselect() {
+  const toggle = document.getElementById("cuisine-toggle");
+  const panel = document.getElementById("cuisine-panel");
+  const container = document.getElementById("cuisine-multiselect");
+
+  toggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const isOpen = !panel.hidden;
+    panel.hidden = isOpen;
+    toggle.setAttribute("aria-expanded", String(!isOpen));
   });
+
+  document.addEventListener("click", (e) => {
+    if (!container.contains(e.target)) {
+      panel.hidden = true;
+      toggle.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  panel.addEventListener("change", () => {
+    updateCuisineToggleLabel();
+    applyFilters();
+  });
+}
+
+function mapsUrl(address) {
+  const query = encodeURIComponent(address);
+  const isApple = /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent);
+  return isApple
+    ? `https://maps.apple.com/?q=${query}`
+    : `https://www.google.com/maps/search/?api=1&query=${query}`;
 }
 
 function servesLabel(r) {
@@ -185,7 +222,7 @@ function renderCard(r, today) {
         ${r.outOfTown ? `<span class="tag out-of-town">Out of town</span>` : ""}
       </div>
       <div class="day-row">${renderDayRow(r, today)}</div>
-      ${r.address ? `<div class="address">${escapeHTML(r.address)}</div>` : ""}
+      ${r.address ? `<div class="address"><a href="${mapsUrl(r.address)}" target="_blank" rel="noopener noreferrer">${escapeHTML(r.address)}</a></div>` : ""}
       ${r.notes ? `<div class="notes">${escapeHTML(r.notes)}</div>` : ""}
     </article>
   `;
@@ -198,7 +235,7 @@ function escapeHTML(str) {
 }
 
 function applyFilters() {
-  const cuisine = document.getElementById("cuisine-filter").value;
+  const cuisines = selectedCuisines();
   const location = document.getElementById("location-filter").value;
   const openTodayOnly = document.getElementById("open-today-filter").checked;
   const foodOnly = document.getElementById("food-filter").checked;
@@ -206,7 +243,7 @@ function applyFilters() {
   const today = todayKey();
 
   state.filtered = state.all.filter((r) => {
-    if (cuisine && r.cuisine !== cuisine) return false;
+    if (cuisines.length > 0 && !cuisines.includes(r.cuisine)) return false;
     if (location === "in-town" && r.outOfTown) return false;
     if (location === "out-of-town" && !r.outOfTown) return false;
     if (openTodayOnly && !r[today]) return false;
@@ -251,7 +288,7 @@ function pickForMe() {
     <strong>${escapeHTML(pick.name)}</strong>${pick.outOfTown ? ` <span class="tag out-of-town">Out of town</span>` : ""}<br>
     <span class="cuisine">${escapeHTML(pick.cuisine)} • ${servesLabel(pick)}</span><br>
     ${pick[today] ? "Open today" : "⚠️ Closed today"}
-    ${pick.address ? `<br><span class="address">${escapeHTML(pick.address)}</span>` : ""}
+    ${pick.address ? `<br><a class="address" href="${mapsUrl(pick.address)}" target="_blank" rel="noopener noreferrer">${escapeHTML(pick.address)}</a>` : ""}
   `;
 }
 
@@ -270,9 +307,9 @@ async function init() {
   }
 
   populateCuisineFilter(state.all);
+  setupCuisineMultiselect();
   applyFilters();
 
-  document.getElementById("cuisine-filter").addEventListener("change", applyFilters);
   document.getElementById("location-filter").addEventListener("change", applyFilters);
   document.getElementById("open-today-filter").addEventListener("change", applyFilters);
   document.getElementById("food-filter").addEventListener("change", applyFilters);
