@@ -246,8 +246,7 @@ function applyFilters() {
   const cuisines = selectedCuisines();
   const location = document.getElementById("location-filter").value;
   const openTodayOnly = document.getElementById("open-today-filter").checked;
-  const foodOnly = document.getElementById("food-filter").checked;
-  const alcoholOnly = document.getElementById("alcohol-filter").checked;
+  const serves = document.getElementById("serves-filter").value;
   const today = todayKey();
 
   state.filtered = state.all.filter((r) => {
@@ -255,8 +254,9 @@ function applyFilters() {
     if (location === "in-town" && r.outOfTown) return false;
     if (location === "out-of-town" && !r.outOfTown) return false;
     if (openTodayOnly && !r[today]) return false;
-    if (foodOnly && !r.food) return false;
-    if (alcoholOnly && !r.alcohol) return false;
+    if (serves === "food-alcohol" && !(r.food && r.alcohol)) return false;
+    if (serves === "food-only" && !(r.food && !r.alcohol)) return false;
+    if (serves === "alcohol-only" && !(r.alcohol && !r.food)) return false;
     return true;
   });
 
@@ -320,8 +320,7 @@ async function init() {
 
   document.getElementById("location-filter").addEventListener("change", applyFilters);
   document.getElementById("open-today-filter").addEventListener("change", applyFilters);
-  document.getElementById("food-filter").addEventListener("change", applyFilters);
-  document.getElementById("alcohol-filter").addEventListener("change", applyFilters);
+  document.getElementById("serves-filter").addEventListener("change", applyFilters);
   document.getElementById("pick-btn").addEventListener("click", pickForMe);
 }
 

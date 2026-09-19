@@ -46,15 +46,14 @@
         </label>
       </div>
 
-      <div class="filter-group checkbox-group">
-        <label>
-          <input type="checkbox" id="food-filter">
-          Serves food
-        </label>
-        <label>
-          <input type="checkbox" id="alcohol-filter">
-          Serves alcohol
-        </label>
+      <div class="filter-group">
+        <label for="serves-filter">Serves</label>
+        <select id="serves-filter">
+          <option value="">All</option>
+          <option value="food-alcohol">Food & Alcohol</option>
+          <option value="food-only">Food only</option>
+          <option value="alcohol-only">Alcohol only</option>
+        </select>
       </div>
     </section>
 
