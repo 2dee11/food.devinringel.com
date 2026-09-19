@@ -148,12 +148,13 @@ function populateCuisineFilter(restaurants) {
     .map(
       (cuisine) => `
         <label>
-          <input type="checkbox" class="cuisine-option" value="${escapeHTML(cuisine)}">
+          <input type="checkbox" class="cuisine-option" value="${escapeHTML(cuisine)}" ${cuisine.toLowerCase() === "breakfast" ? "" : "checked"}>
           ${escapeHTML(cuisine)}
         </label>
       `
     )
     .join("");
+  updateCuisineToggleLabel();
 }
 
 function selectedCuisines() {
@@ -162,8 +163,9 @@ function selectedCuisines() {
 
 function updateCuisineToggleLabel() {
   const toggle = document.getElementById("cuisine-toggle");
+  const total = document.querySelectorAll(".cuisine-option").length;
   const selected = selectedCuisines();
-  if (selected.length === 0) toggle.textContent = "All cuisines";
+  if (selected.length === 0 || selected.length === total) toggle.textContent = "All cuisines";
   else if (selected.length <= 2) toggle.textContent = selected.join(", ");
   else toggle.textContent = `${selected.length} cuisines`;
 }
